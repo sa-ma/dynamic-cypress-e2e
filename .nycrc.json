@@ -1,0 +1,8 @@
+{
+	"extension": [".js", ".jsx", ".ts", ".tsx"],
+	"include": ["pages/**/*"],
+	"exclude": ["node_modules"],
+	"all": true,
+	"sourceMap": true,
+	"instrument": true
+}

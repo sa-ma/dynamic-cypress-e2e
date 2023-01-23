@@ -1,0 +1,38 @@
+{
+	"name": "gandalf-gate",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint",
+		"cypress": "cypress open",
+		"cypress:headless": "cypress run",
+		"test": "start-server-and-test dev http://localhost:3000 cypress",
+		"test:headless": "start-server-and-test start http://127.0.0.1:3000 cypress:headless"
+	},
+	"dependencies": {
+		"@dynamic-labs/sdk-react": "^0.14.25",
+		"next": "12.3.1",
+		"react": "18.2.0",
+		"react-dom": "18.2.0"
+	},
+	"devDependencies": {
+		"@cypress/code-coverage": "^3.10.0",
+		"@types/react": "18.0.25",
+		"@types/react-dom": "^18.0.9",
+		"@types/styled-components": "^5.1.26",
+		"babel-plugin-istanbul": "^6.1.1",
+		"check-code-coverage": "^1.10.4",
+		"cypress": "^12.3.0",
+		"eslint": "8.25.0",
+		"eslint-config-next": "12.3.1",
+		"eslint-config-prettier": "^8.5.0",
+		"nyc": "^15.1.0",
+		"prettier": "^2.7.1",
+		"start-server-and-test": "^1.15.2",
+		"@rsksmart/mock-web3-provider": "^1.0.2-beta1",
+		"ethers": "^5.7.2"
+	}
+}

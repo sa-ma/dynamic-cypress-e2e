@@ -1,0 +1,39 @@
+name: Tests
+on: [push]
+jobs:
+  cypress-run:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v5
+        with:
+          config: pageLoadTimeout=100000,baseUrl=http://localhost:3000
+          build: npm run build
+          start: npm start
+          wait-on: 'http://localhost:3000'
+          record: true
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # in each pull request to main, compare current code coverage
+      # against the code coverage badge in README file
+      - name: Check if code coverage is below current threshold on main branch
+        # https://help.github.com/en/actions/reference/events-that-trigger-workflows#pull-request-event-pull_request
+        if: github.event_name == 'pull_request' && github.base_ref == 'main'
+        run: npx set-gh-status --check-against-readme
+        env:
+          # show debug logs from "set-gh-status" script
+          DEBUG: check-code-coverage
+          # set the SHA of the _merged_ commit so the status check goes to PR
+          GH_SHA: ${{ github.event.after }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Update code coverage badge
+        run: npx update-badge
+      # this is used to update the readme after the code coverage badge has been modified
+      - uses: mikeal/publish-to-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
